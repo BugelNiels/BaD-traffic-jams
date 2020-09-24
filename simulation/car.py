@@ -5,7 +5,7 @@ import time
 class Car:
 
     def __init__(self, maxSpeed, pos, minDistance, chance):
-        self.currentSpeed = 1
+        self.currentSpeed = 5
         self.maxSpeed = maxSpeed
         self.pos = pos
         self.minDistance = minDistance
@@ -29,19 +29,28 @@ class Car:
     def decelerate(self):
         if(self.nextCar == None):
             return           
-        if(self.nextCar.pos >= self.currentSpeed + self.pos):
+        if(self.nextCar.pos > self.currentSpeed + self.pos):
             return
-        self.brake()
+        safeSpeed = min(self.nextCar.pos - self.pos - 1, self.currentSpeed)
+        tailgateSpeed = max((self.nextCar.pos + self.nextCar.currentSpeed) - self.pos - self.minDistance, 0)
+        if(safeSpeed >= tailgateSpeed):
+            self.currentSpeed  = safeSpeed
+        elif(self.nextCar.currentSpeed >= self.currentSpeed):
+            self.currentSpeed = tailgateSpeed
+        else:
+            self.currentSpeed = min(safeSpeed, tailgateSpeed)
 
     def randomize(self):
         if random.random() > self.chance:
             return
         self.brake()
         
-    def brake(self):
+    def brake(self, dec=1):
         if(self.currentSpeed == 0):
             return
-        self.currentSpeed -= 1
+        self.currentSpeed -= dec
+        if(self.currentSpeed < 0):
+            self.currentSpeed = 0
 
     def updatePosition(self):
         self.pos = self.pos + self.currentSpeed

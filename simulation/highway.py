@@ -1,7 +1,8 @@
 from .car import Car
 import random
 
-minDistance = 6
+minDistance = 20
+maxSpeed  = 5
 
 class Highway:
 
@@ -9,16 +10,18 @@ class Highway:
         self.maxCars = maxCars
 
     def spawnCars(self, batch):
-        self.cars = [self.spawnCar(batch, 2 * i * (minDistance + 1)) for i in range(self.maxCars)]
+        self.cars = [self.spawnCar(batch, i * (maxSpeed + minDistance)) for i in range(self.maxCars)]
         for i in range(self.maxCars):
             j = i + 1
             if(j < self.maxCars):
                 self.cars[i].setNextCar(self.cars[j])
             else:
                 self.cars[i].setNextCar(None)
+        
+        self.cars = self.cars[::-1]
 
     def spawnCar(self, batch, pos):
-        car = Car(5, pos, minDistance, 0.5)
+        car = Car(maxSpeed, pos, minDistance, 0.5)
         car.initCar(batch)
         return car
 
@@ -34,6 +37,13 @@ class Highway:
 
     def step4(self):
         [car.updatePosition() for car in self.cars]
+
+    def allSteps(self):
+        for car in self.cars:
+            car.accelerate()
+            car.decelerate()
+            car.randomize()
+        self.step4()
 
     def drawCars(self):
         [car.drawCar() for car in self.cars]

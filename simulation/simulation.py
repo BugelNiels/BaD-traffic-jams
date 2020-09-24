@@ -12,7 +12,8 @@ class Simulator:
         pass
 
     def calcNextTick(self, dt):
-        self.HW.step1()
-        self.HW.step2()
-        self.HW.step3()
-        self.HW.step4()
+        #self.HW.step1()
+        #self.HW.step2()
+        #self.HW.step3()
+        #self.HW.step4()
+        self.HW.allSteps()
