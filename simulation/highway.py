@@ -1,31 +1,42 @@
 from .car import Car
 import random
+import pandas as pd
 
-minDistance = 20
+minDistance = 3
 maxSpeed  = 5
 
 class Highway:
 
     def __init__(self, maxCars):
         self.maxCars = maxCars
+        self.history = []
+        self.currentCars = 0
+        self.cars = []
 
     def spawnCars(self, batch):
-        self.cars = [self.spawnCar(batch, i * (maxSpeed + minDistance)) for i in range(self.maxCars)]
-        for i in range(self.maxCars):
-            j = i + 1
-            if(j < self.maxCars):
-                self.cars[i].setNextCar(self.cars[j])
-            else:
-                self.cars[i].setNextCar(None)
+        [self.spawnCar(batch, int(self.maxCars/2) * (maxSpeed + minDistance) - i * (maxSpeed + minDistance)) for i in range(int(self.maxCars/2))]
         
-        self.cars = self.cars[::-1]
+        #self.cars = self.cars[::-1]
 
-    def spawnCar(self, batch, pos):
+    def spawnCar(self, batch, pos=0):
+        if(self.currentCars != 0 and self.cars[-1].pos == 0):
+            return
+        self.currentCars += 1
         car = Car(maxSpeed, pos, minDistance, 0.5)
         car.initCar(batch)
-        return car
+        if(self.currentCars != 1):
+            car.setNextCar(self.cars[-1])
+        self.cars.append(car)
 
-   
+    def getCarPos(self, idx):
+        if(idx < self.currentCars):
+            return self.cars[idx].pos
+        return -1
+
+    def saveHistory(self):
+        current = [self.getCarPos(i) for i in range(self.maxCars)]
+        self.history.append(current)
+
     def step1(self):
         [car.accelerate() for car in self.cars]
 
