@@ -12,7 +12,8 @@ class Highway:
         self.cars = []
 
     def spawnCars(self, batch):
-        [self.spawnCar(batch, int(self.maxCars/2) * (Config.MAX_SPEED + Config.MIN_DISTANCE) - i * (Config.MAX_SPEED + Config.MIN_DISTANCE)) for i in range(int(self.maxCars/2))]
+        between = int(Config.MAX_SPEED * 2 + 4)
+        [self.spawnCar(batch, int(self.maxCars/2) * between - i * between) for i in range(int(self.maxCars/2))]
         
         #self.cars = self.cars[::-1]
 
@@ -20,7 +21,7 @@ class Highway:
         if(self.currentCars != 0 and self.cars[-1].pos == 0):
             return
         self.currentCars += 1
-        car = Car(Config.MAX_SPEED, pos, Config.MIN_DISTANCE, 0.5)
+        car = Car(Config.MAX_SPEED, pos, Config.MIN_DISTANCE, 0.5, random.choice([True, False]))
         car.initCar(batch)
         if(self.currentCars != 1):
             car.setNextCar(self.cars[-1])

@@ -35,7 +35,7 @@ def printGraphs():
     print(len(sim.HW.history))
     #plt.ylim(ymin=0)
     plt.plot(x)
-    #plt.show()
+    plt.show()
     plt.savefig("{}/graph-md-{}.png".format(Config.PLOT_FOLDER, Config.MIN_DISTANCE))
 
 def spawnSingleCar(df):
