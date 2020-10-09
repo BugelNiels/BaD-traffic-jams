@@ -31,7 +31,7 @@ class Car:
         if(self.nextCar.pos > self.currentSpeed + self.pos):
             return
         safeSpeed = max(min(self.nextCar.pos - self.pos - 1, self.currentSpeed), 0)
-        tailgateSpeed = max((self.nextCar.pos + self.nextCar.currentSpeed) - self.pos - self.minDistance, 0)
+        tailgateSpeed = max(min((self.nextCar.pos + self.nextCar.currentSpeed) - self.pos - self.minDistance, self.currentSpeed), 0)
         if(self.nextCar.currentSpeed >= tailgateSpeed):
             self.currentSpeed = tailgateSpeed
         else:
