@@ -9,19 +9,42 @@ class Car:
         self.currentSpeed = Config.START_VELOCITY
         self.maxSpeed = maxSpeed
         self.pos = pos
-        self.minDistance = minDistance
         self.nextCar = None
         self.chance = chance
         self.isTokkie = isTokkie
+        if(self.isTokkie):
+            self.minDistance = Config.TOKKIE_DISTANCE
+        else:
+            self.minDistance = Config.NORMAL_DISTANCE
 
     def setNextCar(self, nextCar):
         self.nextCar = nextCar
+
+
+    def updateVelocity(self):
+        
+        if(self.nextCar != None and self.nextCar.pos == self.pos):
+            print("Crash: ", self.pos)
+        if(self.nextCar == None):
+            distance = self.minDistance + 1
+        else:
+            distance = self.nextCar.pos - self.pos
+
+        if(distance > self.minDistance):
+            if(self.currentSpeed >= self.maxSpeed):
+                return
+            self.currentSpeed = min(self.currentSpeed + 1, distance)
+        elif(distance < self.minDistance):
+            if(self.nextCar.currentSpeed == 0):
+                self.currentSpeed = max(min(self.currentSpeed, distance - 1), 0)
+            else:
+                self.currentSpeed = min(self.currentSpeed, distance)
 
     def accelerate(self):
         if(self.nextCar != None and self.nextCar.pos == self.pos):
             print("Crash: ", self.pos)
         #if(self.nextCar != None and self.nextCar.pos - self.pos <= self.minDistance and self.nextCar.pos <= self.currentSpeed + self.pos):
-        if(self.nextCar != None and self.nextCar.pos - self.pos <= self.calcMinDistance()):
+        if(self.nextCar != None and self.nextCar.pos - self.pos <= self.currentSpeed + 1):
             return    
         if(self.currentSpeed >= self.maxSpeed):
             return
@@ -32,11 +55,11 @@ class Car:
             return           
         if(self.nextCar.pos > self.currentSpeed + self.pos):
             return
-        safeSpeed = max(min(self.nextCar.pos - self.pos - 1, self.currentSpeed), 0)
+        safeSpeed = max(min(self.nextCar.pos - self.pos - self.minDistance, self.currentSpeed), 0)
         if(self.isTokkie):
             tailgateSpeed = max(((self.nextCar.pos + self.nextCar.currentSpeed) - self.pos - self.minDistance), 0)
             self.currentSpeed = tailgateSpeed
-            return
+            # return
         self.currentSpeed = safeSpeed
 
     def randomize(self):
