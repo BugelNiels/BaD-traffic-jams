@@ -32,6 +32,7 @@ def dismiss_sim(df):
 def printGraphs():
     #print(sim.HW.history)
     x = np.matrix(sim.HW.history)
+    print(len(sim.HW.history))
     #plt.ylim(ymin=0)
     plt.plot(x)
     #plt.show()
