@@ -1,11 +1,12 @@
 from pyglet import shapes
 import random
 import time
+from config import Config
 
 class Car:
 
     def __init__(self, maxSpeed, pos, minDistance, chance):
-        self.currentSpeed = 4
+        self.currentSpeed = Config.START_VELOCITY
         self.maxSpeed = maxSpeed
         self.pos = pos
         self.minDistance = minDistance

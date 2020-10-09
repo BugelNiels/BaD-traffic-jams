@@ -3,18 +3,17 @@ from simulation.highway import Highway
 from simulation.simulation import Simulator
 import numpy as np
 import matplotlib.pyplot as plt
+from config import Config
 
 __all__ = ["simulation"]
 
-tickspeed = 0.01
-maxTicks = 1000
-dismissDelay = tickspeed * maxTicks
 
-width, height = 2560, 200
-window = pyglet.window.Window(width=width, height=height)
+dismissDelay = Config.TICKSPEED * Config.MAX_TICKS
+
+window = pyglet.window.Window(width=Config.SCREEN_WIDTH, height=Config.SCREEN_HEIGHT)
 batch = pyglet.graphics.Batch()
 
-HW = Highway(1000)
+HW = Highway(Config.MAX_CARS)
 sim = Simulator(HW)
 
 HW.spawnCars(batch)
@@ -35,15 +34,16 @@ def printGraphs():
     x = np.matrix(sim.HW.history)
     #plt.ylim(ymin=0)
     plt.plot(x)
-    plt.show()
+    #plt.show()
+    plt.savefig("{}/graph-md-{}.png".format(Config.PLOT_FOLDER, Config.MIN_DISTANCE))
 
 def spawnSingleCar(df):
     HW.spawnCar(batch)
     if(HW.currentCars >= HW.maxCars):
         pyglet.clock.unschedule(spawnSingleCar)
 
-pyglet.clock.schedule_interval(spawnSingleCar, tickspeed*3)
-pyglet.clock.schedule_interval(sim.calcNextTick, tickspeed)
+pyglet.clock.schedule_interval(spawnSingleCar, Config.TICKSPEED*3)
+pyglet.clock.schedule_interval(sim.calcNextTick, Config.TICKSPEED)
 pyglet.clock.schedule_once(dismiss_sim, dismissDelay)
 pyglet.app.run()
 

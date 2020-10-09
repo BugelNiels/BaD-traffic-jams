@@ -1,9 +1,7 @@
 from .car import Car
 import random
 import pandas as pd
-
-minDistance = 3
-maxSpeed  = 5
+from config import Config
 
 class Highway:
 
@@ -14,7 +12,7 @@ class Highway:
         self.cars = []
 
     def spawnCars(self, batch):
-        [self.spawnCar(batch, int(self.maxCars/2) * (maxSpeed + minDistance) - i * (maxSpeed + minDistance)) for i in range(int(self.maxCars/2))]
+        [self.spawnCar(batch, int(self.maxCars/2) * (Config.MAX_SPEED + Config.MIN_DISTANCE) - i * (Config.MAX_SPEED + Config.MIN_DISTANCE)) for i in range(int(self.maxCars/2))]
         
         #self.cars = self.cars[::-1]
 
@@ -22,7 +20,7 @@ class Highway:
         if(self.currentCars != 0 and self.cars[-1].pos == 0):
             return
         self.currentCars += 1
-        car = Car(maxSpeed, pos, minDistance, 0.5)
+        car = Car(Config.MAX_SPEED, pos, Config.MIN_DISTANCE, 0.5)
         car.initCar(batch)
         if(self.currentCars != 1):
             car.setNextCar(self.cars[-1])
