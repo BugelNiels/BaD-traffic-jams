@@ -8,12 +8,13 @@ class Highway:
     def __init__(self, maxCars):
         self.maxCars = maxCars
         self.history = []
+        self.velocityHistory = []
         self.currentCars = 0
         self.cars = []
 
     def spawnCars(self, batch):
         between = int(Config.MAX_SPEED * 2 + Config.NORMAL_DISTANCE)
-        [self.spawnCar(batch, int(self.maxCars/2) * between - i * between) for i in range(int(self.maxCars/2))]
+        [self.spawnCar(batch, int(self.maxCars) * between - i * between) for i in range(int(self.maxCars))]
         
         # self.cars = self.cars[::-1]
 
@@ -21,7 +22,7 @@ class Highway:
         if(self.currentCars != 0 and self.cars[-1].pos == 0):
             return
         self.currentCars += 1
-        car = Car(Config.MAX_SPEED, pos, Config.MIN_DISTANCE, 0.5, random.choice([False]))
+        car = Car(Config.MAX_SPEED, pos, True)
         car.initCar(batch)
         if(self.currentCars != 1):
             car.setNextCar(self.cars[-1])
@@ -32,9 +33,17 @@ class Highway:
             return self.cars[idx].pos
         return -1
 
+    def getCarVelocity(self, idx):
+        if(idx < self.currentCars):
+            return self.cars[idx].currentSpeed
+        return -1
+
     def saveHistory(self):
-        current = [self.getCarPos(i) for i in range(self.maxCars)]
+        current = [self.getCarPos(i) for i in range(self.maxCars)]        
         self.history.append(current)
+
+        current = [self.getCarVelocity(i) for i in range(self.currentCars)]
+        self.velocityHistory.append(current)
 
     def step1(self):
         [car.accelerate() for car in self.cars]
