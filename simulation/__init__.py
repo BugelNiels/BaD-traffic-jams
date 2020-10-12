@@ -43,14 +43,15 @@ def printGraphs():
     plt.axhline(y=sum(avgSpeedTable) / len(avgSpeedTable), color='r', linestyle='-')
     plt.show()
 
-    plt.scatter(sim.HW.velocityHistory)
+    sc = np.matrix(sim.HW.velocityHistory)
+    plt.scatter(sc)
     plt.show()
 
 
 def spawnSingleCar(df):
-    HW.spawnCar(batch)
-    if(HW.currentCars >= HW.maxCars):
-        pyglet.clock.unschedule(spawnSingleCar)
+    #HW.spawnCar(batch)
+    #if(HW.currentCars >= HW.maxCars):
+    pyglet.clock.unschedule(spawnSingleCar)
 
 pyglet.clock.schedule_interval(spawnSingleCar, Config.TICKSPEED*3)
 pyglet.clock.schedule_interval(sim.calcNextTick, Config.TICKSPEED)
