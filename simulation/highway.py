@@ -22,7 +22,7 @@ class Highway:
         if(self.currentCars != 0 and self.cars[-1].pos == 0):
             return
         self.currentCars += 1
-        car = Car(pos, random.choice([True, False]))
+        car = Car(pos, random.random() < Config.PROPORTION)
         car.initCar(batch)
         if(self.currentCars != 1):
             car.setNextCar(self.cars[-1])

@@ -36,15 +36,11 @@ def printGraphs():
     #plt.ylim(ymin=0)
     plt.plot(x, color='black', linewidth=1)
     plt.show()
-    plt.savefig("{}/graph-md-{}.png".format(Config.PLOT_FOLDER, Config.MIN_DISTANCE))
+    plt.savefig("{}/graph-prop-{}.png".format(Config.PLOT_FOLDER, Config.PROPORTION))
 
     avgSpeedTable = [sum(i) / len(i) for i in sim.HW.velocityHistory]
     plt.plot(avgSpeedTable, color='black', linewidth=1)
     plt.axhline(y=sum(avgSpeedTable) / len(avgSpeedTable), color='r', linestyle='-')
-    plt.show()
-
-    sc = np.matrix(sim.HW.velocityHistory)
-    plt.scatter(sc)
     plt.show()
 
 

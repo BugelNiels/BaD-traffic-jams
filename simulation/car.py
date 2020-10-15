@@ -21,15 +21,15 @@ class Car:
 
 
     def updateVelocity(self):
-        if(self.nextCar != None and self.nextCar.pos <= self.getFrontPostion()):
-            print("Crash: ", self.currentSpeed)
+        if(self.nextCar != None and self.nextCar.pos <= self.getFrontPostion() - 1):
+            print("Crash: ", self.pos, self.nextCar.pos, self.nextCar.pos - self.pos)
         if(self.nextCar == None):
             distance = 9999999
         else:
             distance = self.nextCar.pos - self.getFrontPostion()
 
         if(self.isTokkie and self.nextCar != None and distance > Config.TOKKIE_DISTANCE and distance < self.calcMinDistance()):
-           self.currentSpeed = min(self.currentSpeed + Config.ACCELERATION, distance + Config.TOKKIE_DISTANCE, self.maxSpeed)
+           self.currentSpeed = min(self.currentSpeed + Config.ACCELERATION, self.currentSpeed + (distance - Config.TOKKIE_DISTANCE), self.maxSpeed)
         if(distance > self.calcMinDistance()):
             self.accelerate(distance)
         elif(distance < self.calcMinDistance()):
