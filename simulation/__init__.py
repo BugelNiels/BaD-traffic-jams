@@ -30,17 +30,22 @@ def dismiss_sim(df):
     printGraphs()
 
 def printGraphs():
+    prop = int(Config.PROPORTION * 10)
     #print(sim.HW.history)
     x = np.matrix(sim.HW.history)
     print(len(sim.HW.history))
-    #plt.ylim(ymin=0)
+    
+    plt.ylim((50000,90000))
     plt.plot(x, color='black', linewidth=1)
+    plt.gcf()
+    plt.savefig("{}/graph-prop-{}.png".format(Config.PLOT_FOLDER, prop))
     plt.show()
-    plt.savefig("{}/graph-prop-{}.png".format(Config.PLOT_FOLDER, Config.PROPORTION))
 
     avgSpeedTable = [sum(i) / len(i) for i in sim.HW.velocityHistory]
     plt.plot(avgSpeedTable, color='black', linewidth=1)
     plt.axhline(y=sum(avgSpeedTable) / len(avgSpeedTable), color='r', linestyle='-')
+    plt.gcf()
+    plt.savefig("{}/avg_speed-prop-{}.png".format(Config.PLOT_FOLDER, prop))
     plt.show()
 
 
