@@ -16,12 +16,6 @@ class Simulator:
 	def calcNextTick(self, dt):
 		if(self.currentTick >= Config.MAX_TICKS - Config.DATA_SIZE):
 			self.HW.saveHistory()
-		#if(self.currentTick > Config.MAX_TICKS):
-			#return
-		#self.HW.step1()
-		#self.HW.step2()
-		#self.HW.step3()
-		#self.HW.step4()
 		self.HW.allSteps()
 		self.currentTick = self.currentTick + 1
 

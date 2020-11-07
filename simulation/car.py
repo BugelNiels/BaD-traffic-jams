@@ -21,13 +21,17 @@ class Car:
 
 
     def updateVelocity(self):
+        #Check if you crash
         if(self.nextCar != None and self.nextCar.pos <= self.getFrontPostion() - 1):
             print("Crash: ", self.pos, self.nextCar.pos, self.nextCar.pos - self.pos)
+        
+        #Make sure the code still works for the first car
         if(self.nextCar == None):
             distance = 9999999
         else:
             distance = self.nextCar.pos - self.getFrontPostion()
-
+        
+        #The different cases 1) it is in tailgating distance 2) it is close, but not in tailgating distance, 3) it is far way 4) it is exactly at the correct distance
         if(self.isTokkie and self.nextCar != None and distance > Config.TOKKIE_DISTANCE and distance < self.calcMinDistance()):
            self.currentSpeed = min(self.currentSpeed + Config.ACCELERATION, self.currentSpeed + (distance - Config.TOKKIE_DISTANCE), self.maxSpeed)
         if(distance > self.calcMinDistance()):

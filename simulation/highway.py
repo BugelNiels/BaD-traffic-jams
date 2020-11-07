@@ -19,11 +19,16 @@ class Highway:
         # self.cars = self.cars[::-1]
 
     def spawnCar(self, batch, pos=0):
+    
+        #check if the next car can be spawned at the position
         if(self.currentCars != 0 and self.cars[-1].pos == 0):
             return
         self.currentCars += 1
+        
+        #get the correct proportion tokkies in the simulation
         car = Car(pos, random.random() < Config.PROPORTION)
         car.initCar(batch)
+        #append next car, for ease of calculation
         if(self.currentCars != 1):
             car.setNextCar(self.cars[-1])
         self.cars.append(car)
@@ -39,20 +44,12 @@ class Highway:
         return -1
 
     def saveHistory(self):
+        #save the history for the plots
         current = [self.getCarPos(i) for i in range(self.maxCars)]        
         self.history.append(current)
 
         current = [self.getCarVelocity(i) for i in range(self.currentCars)]
         self.velocityHistory.append(current)
-
-    def step1(self):
-        [car.accelerate() for car in self.cars]
-
-    def step2(self):
-        [car.decelerate() for car in self.cars]
-
-    def step3(self):
-        [car.randomize() for car in self.cars]
 
     def step4(self):
         [car.updatePosition() for car in self.cars]
