@@ -1,7 +1,7 @@
 
 class Config:
-	PROPORTION = 0.1 # 0.0 0.5 0.1 1.0
-
+	PROPORTION = 0.0 # 0.0 0.5 0.1 1.0
+	SEED = 42
 
 	START_VELOCITY = 50
 	MIN_DISTANCE = 80
@@ -20,7 +20,7 @@ class Config:
 	CAR_SIZE = 15
 	CAR_HEIGHT = 4
 	
-	TICKSPEED = 0.3
+	TICKSPEED = 0.02
 	MAX_TICKS = 1000
 	DATA_SIZE = 500
 
