@@ -8,6 +8,7 @@ from config import Config
 
 __all__ = ["simulation"]
 
+# Set up the simulation and UI
 random.seed(Config.SEED)
 
 dismissDelay = Config.TICKSPEED * Config.MAX_TICKS
@@ -31,11 +32,13 @@ def dismiss_sim(df):
     printGraphs()
 
 def printGraphs():
+    # Print info at the end of the simulation
     prop = int(Config.PROPORTION * 10)
     
     x = np.matrix(sim.HW.history)
     x *= 0.5
     
+    # Time-space diagram
     plt.ylim((50000/2,90000/2))
     plt.plot(x, color='black', linewidth=1)
     plt.gcf()
@@ -44,6 +47,7 @@ def printGraphs():
     plt.ylabel('Distance in meters')
     plt.show()
 
+    # Average speed plot
     avgSpeedTable = [((sum(i) / len(i)) * 1.8) for i in sim.HW.velocityHistory]
     plt.plot(avgSpeedTable, color='black', linewidth=1)
     plt.axhline(y=sum(avgSpeedTable) / len(avgSpeedTable), color='r', linestyle='-')
@@ -55,9 +59,8 @@ def printGraphs():
 
 
 def spawnSingleCar(df):
-    #HW.spawnCar(batch)
-    #if(HW.currentCars >= HW.maxCars):
     pyglet.clock.unschedule(spawnSingleCar)
+
 
 pyglet.clock.schedule_interval(spawnSingleCar, Config.TICKSPEED*3)
 pyglet.clock.schedule_interval(sim.calcNextTick, Config.TICKSPEED)

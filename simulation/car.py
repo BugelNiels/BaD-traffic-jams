@@ -21,17 +21,17 @@ class Car:
 
 
     def updateVelocity(self):
-        #Check if you crash
+        # Check if the car crashes
         if(self.nextCar != None and self.nextCar.pos <= self.getFrontPostion() - 1):
             print("Crash: ", self.pos, self.nextCar.pos, self.nextCar.pos - self.pos)
         
-        #Make sure the code still works for the first car
+        # Make sure the code still works for the first car
         if(self.nextCar == None):
             distance = 9999999
         else:
             distance = self.nextCar.pos - self.getFrontPostion()
         
-        #The different cases 1) it is in tailgating distance 2) it is close, but not in tailgating distance, 3) it is far way 4) it is exactly at the correct distance
+        # The different cases 1) it is in tailgating distance 2) it is close, but not in tailgating distance, 3) it is far way 4) it is exactly at the correct distance
         if(self.isTokkie and self.nextCar != None and distance > Config.TOKKIE_DISTANCE and distance < self.calcMinDistance()):
            self.currentSpeed = min(self.currentSpeed + Config.ACCELERATION, self.currentSpeed + (distance - Config.TOKKIE_DISTANCE), self.maxSpeed)
         if(distance > self.calcMinDistance()):
@@ -49,7 +49,6 @@ class Car:
             self.currentSpeed = max(min(self.currentSpeed, distance - 1), 0)
         else:
             self.currentSpeed = min(self.currentSpeed, distance)
-        # self.currentSpeed = 0
 
     def randomize(self):
         if random.random() > self.chance:
@@ -74,13 +73,11 @@ class Car:
         return self.pos + Config.CAR_SIZE
 
     def getColor(self):
-        # if(self.isTokkie):
-        #     return (0, 0, 255)
-        # else:
-        #     return (255,0,0)
+        # Color a car red/green depending on its speed (red for slow; green for fast)
         return (int(255 - (self.currentSpeed / self.maxSpeed) * 255), int((self.currentSpeed / self.maxSpeed) * 255), 0)
 
     def calcMinDistance(self): 
+        # Calculate the minimum distance based on the current speed
         if(self.nextCar == None):
             return Config.MIN_DISTANCE + 1
         return int( self.currentSpeed*Config.REACTION_TIME + (self.currentSpeed * self.currentSpeed) / (2*Config.DECELERATION) - (self.nextCar.currentSpeed * self.nextCar.currentSpeed) / (2*Config.DECELERATION))
