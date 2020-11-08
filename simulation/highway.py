@@ -15,11 +15,8 @@ class Highway:
     def spawnCars(self, batch):
         between = int(Config.MAX_SPEED * 2 + Config.MIN_DISTANCE)
         [self.spawnCar(batch, int(self.maxCars) * between - i * between) for i in range(int(self.maxCars))]
-        
-        # self.cars = self.cars[::-1]
 
     def spawnCar(self, batch, pos=0):
-    
         #check if the next car can be spawned at the position
         if(self.currentCars != 0 and self.cars[-1].pos == 0):
             return
@@ -51,14 +48,12 @@ class Highway:
         current = [self.getCarVelocity(i) for i in range(self.currentCars)]
         self.velocityHistory.append(current)
 
-    def step4(self):
-        [car.updatePosition() for car in self.cars]
-
     def allSteps(self):
         for car in self.cars:
             car.updateVelocity()
             car.randomize()
-        self.step4()
+        # This has to happen after all the new velocities have been calculated
+        [car.updatePosition() for car in self.cars]
 
     def drawCars(self):
         [car.drawCar() for car in self.cars]
