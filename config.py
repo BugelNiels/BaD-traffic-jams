@@ -23,6 +23,8 @@ class Config:
 	CAR_SIZE = 15
 	CAR_HEIGHT = 4
 	
+	# The tickspeed is currently set at 0.5 to ensure that every step is calculated properly
+	# This is only for obtaining proper results; if you want to see a nice simulation, you can set this to something like 0.05
 	TICKSPEED = 0.5
 	MAX_TICKS = 1000
 	DATA_SIZE = 500
