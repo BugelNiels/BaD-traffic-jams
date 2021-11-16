@@ -23,13 +23,13 @@ class Config:
 	CAR_SIZE = 15
 	CAR_HEIGHT = 4
 	
-	# The tickspeed is currently set at 0.5 to ensure that every step is calculated properly
-	# This is only for obtaining proper results; if you want to see a nice simulation, you can set this to something like 0.05
-	TICKSPEED = 0.5
+	# The tickspeed is currently set at 0.05 so that you see a nice simulation.
+	# For obtaining proper resuts, set this to something like 0.5
+	TICKSPEED = 0.05
 	MAX_TICKS = 1000
 	DATA_SIZE = 500
 
-	SCREEN_WIDTH, SCREEN_HEIGHT = 2560, 800
+	SCREEN_WIDTH, SCREEN_HEIGHT = 1500, 400
 	
 	MAX_CARS = 250
 	
